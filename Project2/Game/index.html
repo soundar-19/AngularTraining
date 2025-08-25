@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Pro - Ultra Modern Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="music-toggle.css">
+</head>
+<body>
+    <div class="game-header">
+        <div class="game-title">
+            <i class="fas fa-cube" style="margin-right: 12px; font-size: 28px;"></i>
+            TETRIS <span style="background: linear-gradient(135deg, #ec4899, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">ULTRA</span>
+        </div>
+        <div class="header-stats">
+            <div class="stat">
+                <i class="fas fa-trophy" style="font-size: 12px; margin-bottom: 4px; opacity: 0.7;"></i>
+                <div class="stat-label">Score</div>
+                <div class="stat-value" id="headerScore">0</div>
+            </div>
+            <div class="stat">
+                <i class="fas fa-bolt" style="font-size: 12px; margin-bottom: 4px; opacity: 0.7;"></i>
+                <div class="stat-label">Level</div>
+                <div class="stat-value" id="headerLevel">1</div>
+            </div>
+            <div class="music-toggle" id="musicToggle" title="Switch Music Track">
+                <i class="fas fa-music"></i>
+                <span style="font-size: 8px; margin-left: 4px;">CHANGE</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="game-container">
+        <div class="left-dashboard">
+            <div class="hold-section">
+                <h3><i class="fas fa-hand-holding" style="margin-right: 8px;"></i>Hold Piece</h3>
+                <canvas id="holdCanvas" width="120" height="100"></canvas>
+                <div class="hold-hint"><i class="fas fa-keyboard"></i> Press C to hold</div>
+            </div>
+            
+            <div class="stats-compact">
+                <h3><i class="fas fa-chart-line" style="margin-right: 8px;"></i>Game Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Lines</div>
+                        <div class="stat-value" id="lines">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Time</div>
+                        <div class="stat-value" id="gameTime">00:00</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">PPS</div>
+                        <div class="stat-value" id="piecesPerSecond">0.0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">APM</div>
+                        <div class="stat-value" id="actionsPerMinute">0</div>
+                    </div>
+                </div>
+                <div class="level-progress">
+                    <div class="level-progress-bar" id="levelProgress"></div>
+                </div>
+            </div>
+            
+            <div class="combo-section">
+                <div class="combo-label"><i class="fas fa-fire" style="margin-right: 8px;"></i>Combo Chain</div>
+                <div class="combo-value" id="combo">0</div>
+                <div class="combo-multiplier" id="comboMultiplier">×1.0</div>
+            </div>
+        </div>
+        
+        <div class="game-center">
+            <div class="game-area">
+                <canvas id="gameCanvas" width="400" height="800"></canvas>
+                <div id="gameOverlay" class="overlay hidden">
+                    <div class="overlay-content">
+                        <h2 id="overlayTitle">PAUSED</h2>
+                        <p id="overlayMessage">Press ESC to resume</p>
+                        <div id="overlayStats"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-controls">
+                <button id="pauseBtn" class="control-btn primary"><i class="fas fa-pause"></i> PAUSE</button>
+                <button id="restartBtn" class="control-btn secondary"><i class="fas fa-redo"></i> RESTART</button>
+                <button id="focusBtn" class="control-btn secondary"><i class="fas fa-eye"></i> FOCUS</button>
+                <button id="settingsBtn" class="control-btn secondary"><i class="fas fa-cog"></i> SETTINGS</button>
+                <button id="fullscreenBtn" class="control-btn secondary"><i class="fas fa-expand"></i> FULLSCREEN</button>
+            </div>
+            <div class="game-status" id="gameStatus">
+                <div class="status-indicator playing" id="statusIndicator">
+                    <i class="fas fa-play"></i> PLAYING
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-dashboard">
+            <div class="next-queue">
+                <h3><i class="fas fa-forward" style="margin-right: 8px;"></i>Next Pieces</h3>
+                <div class="next-pieces">
+                    <canvas id="next1Canvas" width="100" height="80"></canvas>
+                    <canvas id="next2Canvas" width="80" height="60"></canvas>
+                    <canvas id="next3Canvas" width="80" height="60"></canvas>
+                    <canvas id="next4Canvas" width="60" height="45"></canvas>
+                    <canvas id="next5Canvas" width="60" height="45"></canvas>
+                </div>
+            </div>
+            
+            <div class="achievements collapsed" id="achievementsPanel">
+                <h3 class="collapsible-header" onclick="togglePanel('achievementsPanel')">
+                    <i class="fas fa-medal" style="margin-right: 8px;"></i>Achievements
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </h3>
+                <div class="achievement-list collapsible-content">
+                    <div class="achievement locked" data-achievement="tetris">
+                        <span class="achievement-icon"><i class="fas fa-bullseye"></i></span>
+                        <span class="achievement-name">First Tetris</span>
+                    </div>
+                    <div class="achievement locked" data-achievement="combo">
+                        <span class="achievement-icon"><i class="fas fa-fire"></i></span>
+                        <span class="achievement-name">Combo Master</span>
+                    </div>
+                    <div class="achievement locked" data-achievement="speed">
+                        <span class="achievement-icon"><i class="fas fa-rocket"></i></span>
+                        <span class="achievement-name">Speed Demon</span>
+                    </div>
+                    <div class="achievement locked" data-achievement="marathon">
+                        <span class="achievement-icon"><i class="fas fa-running"></i></span>
+                        <span class="achievement-name">Marathon</span>
+                    </div>
+                    <div class="achievement locked" data-achievement="perfectionist">
+                        <span class="achievement-icon"><i class="fas fa-gem"></i></span>
+                        <span class="achievement-name">Perfectionist</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="leaderboard">
+                <h3><i class="fas fa-crown" style="margin-right: 8px;"></i>Leaderboard</h3>
+                <div class="score-list">
+                    <div class="score-entry">
+                        <span class="rank"><i class="fas fa-crown" style="color: #fbbf24; margin-right: 4px;"></i>#1</span>
+                        <span class="score-value" id="highScore1">0</span>
+                    </div>
+                    <div class="score-entry">
+                        <span class="rank"><i class="fas fa-medal" style="color: #94a3b8; margin-right: 4px;"></i>#2</span>
+                        <span class="score-value" id="highScore2">0</span>
+                    </div>
+                    <div class="score-entry">
+                        <span class="rank"><i class="fas fa-award" style="color: #cd7c2f; margin-right: 4px;"></i>#3</span>
+                        <span class="score-value" id="highScore3">0</span>
+                    </div>
+                    <div class="score-entry">
+                        <span class="rank">#4</span>
+                        <span class="score-value" id="highScore4">0</span>
+                    </div>
+                    <div class="score-entry">
+                        <span class="rank">#5</span>
+                        <span class="score-value" id="highScore5">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls-footer collapsed" id="controlsFooter">
+        <button class="controls-toggle" id="controlsToggle">
+            <i class="fas fa-keyboard"></i> Show Controls
+        </button>
+        <div class="controls-content">
+            <div class="control-section">
+            <h4><i class="fas fa-arrows-alt" style="margin-right: 8px;"></i>Movement</h4>
+            <div class="control-grid">
+                <div class="control-key"><i class="fas fa-arrow-left"></i><i class="fas fa-arrow-right"></i></div>
+                <div class="control-desc">Move Left/Right</div>
+                <div class="control-key"><i class="fas fa-arrow-down"></i></div>
+                <div class="control-desc">Soft Drop</div>
+                <div class="control-key"><i class="fas fa-arrow-up"></i></div>
+                <div class="control-desc">Rotate Clockwise</div>
+                <div class="control-key">Z</div>
+                <div class="control-desc">Rotate Counter-CW</div>
+            </div>
+        </div>
+        
+        <div class="control-section">
+            <h4><i class="fas fa-gamepad" style="margin-right: 8px;"></i>Actions</h4>
+            <div class="control-grid">
+                <div class="control-key">SPACE</div>
+                <div class="control-desc">Hard Drop</div>
+                <div class="control-key">C</div>
+                <div class="control-desc">Hold Piece</div>
+                <div class="control-key">ESC</div>
+                <div class="control-desc">Pause/Resume</div>
+                <div class="control-key">R</div>
+                <div class="control-desc">Restart Game</div>
+            </div>
+        </div>
+        
+        <div class="control-section">
+            <h4><i class="fas fa-magic" style="margin-right: 8px;"></i>Special</h4>
+            <div class="control-grid">
+                <div class="control-key">F11</div>
+                <div class="control-desc">Toggle Fullscreen</div>
+                <div class="control-key">G</div>
+                <div class="control-desc">Toggle Ghost</div>
+                <div class="control-key">T</div>
+                <div class="control-desc">Change Theme</div>
+                <div class="control-key">M</div>
+                <div class="control-desc">Mute Audio</div>
+                <div class="control-key">N</div>
+                <div class="control-desc">🎵 Switch Music</div>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content">
+            <h2><i class="fas fa-cog" style="margin-right: 12px;"></i>Game Settings</h2>
+            <div class="settings-grid">
+                <label for="ghostPiece">Ghost Piece:</label>
+                <input type="checkbox" id="ghostPiece" checked>
+                
+                <label for="gridLines">Grid Lines:</label>
+                <input type="checkbox" id="gridLines" checked>
+                
+                <label for="particles">Particle Effects:</label>
+                <input type="checkbox" id="particles" checked>
+                
+                <label for="soundFx">Sound Effects:</label>
+                <input type="checkbox" id="soundFx" checked>
+                
+                <label for="screenShake">Screen Shake:</label>
+                <input type="checkbox" id="screenShake" checked>
+                
+                <label for="autoRepeat">Auto-Repeat Rate:</label>
+                <input type="range" id="autoRepeat" min="50" max="200" value="100">
+                
+                <label for="dropSpeed">Drop Speed:</label>
+                <input type="range" id="dropSpeed" min="1" max="10" value="5">
+                
+                <label for="musicVolume">Music Volume:</label>
+                <input type="range" id="musicVolume" min="0" max="100" value="50">
+            </div>
+            <button id="closeSettings" class="control-btn primary"><i class="fas fa-times" style="margin-right: 8px;"></i>Close Settings</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
