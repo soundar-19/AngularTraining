@@ -1,0 +1,30 @@
+{
+  "name": "Calculator",
+  "version": "1.0.0",
+  "description": "A simple calculator with basic arithmetic operations",
+  "main": "index.html",
+  "files": {
+    "html": "index.html",
+    "css": "styles.css",
+    "js": "calculator.js"
+  },
+  "features": [
+    "Basic arithmetic operations (+, -, *, /)",
+    "Decimal point support",
+    "Sign toggle",
+    "Delete and clear functions",
+    "Keyboard support",
+    "Error handling for division by zero"
+  ],
+  "theme": {
+    "colors": {
+      "background": "#0f172a",
+      "panel": "#111827",
+      "button": "#1f2937",
+      "accent": "#334155",
+      "text": "#e5e7eb",
+      "muted": "#9ca3af",
+      "focus": "#60a5fa"
+    }
+  }
+}
