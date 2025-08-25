@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Tetris Ultra Logo](image-3.png)
+![Tetris Ultra Logo](images/image-3.png)
 
 [![Live Demo](https://img.shields.io/badge/🎮_Live_Demo-Play_Now-7c3aed?style=for-the-badge&logo=gamepad)](https://soundar-19.github.io/AngularTraining/Project2/Game/index.html)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -20,16 +20,22 @@
 <div align="center">
 
 ### 🎯 Main Game Interface
-![Main Game Interface](image.png)
+![Main Game Interface](images/image-5.png)
+
+### GamePlay Interface
+![GamePlay](images/image.png)
+
+### Game Over Screen
+![Game Over Screen](images/image-6.png)
 
 ### Game Controls
-![Game Controls](image-4.png)
+![Game Controls](images/image-4.png)
 
 ### 🏆 Achievement System
-![Achievement System](image-2.png)
+![Achievement System](images/image-2.png)
 
 ### ⚙️ Settings Panel
-![Settings Panel](image-1.png)
+![Settings Panel](images/image-1.png)
 
 </div>
 

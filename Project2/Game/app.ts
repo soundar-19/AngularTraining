@@ -33,6 +33,7 @@ class TetrisGame {
   private dropTime = 0;
   private lastTime = 0;
   private gameStartTime = 0;
+  private gameEndTime = 0;
   private isPaused = false;
   private isGameOver = false;
   private highScores: number[] = [0, 0, 0, 0, 0];
@@ -61,6 +62,7 @@ class TetrisGame {
   private backgroundMusic: HTMLAudioElement | null = null;
   private currentMusicTrack = 0;
   private musicTracks = ['sounds/Background.mp3', 'sounds/Background2.mp3'];
+  private gameStarted = false;
   private themes = [
     {
       I: '#00bcd4', O: '#ffeb3b', T: '#9c27b0', S: '#4caf50',
@@ -121,11 +123,21 @@ class TetrisGame {
         this.config.colors = this.themes[this.currentTheme];
         this.canvas.width = this.config.gameSettings.boardWidth * this.config.gameSettings.blockSize;
         this.canvas.height = this.config.gameSettings.boardHeight * this.config.gameSettings.blockSize;
-        this.playBackgroundMusic();
         this.init();
       })
       .catch(error => {
         console.error('Failed to load config:', error);
+        this.config = {
+          gameSettings: { boardWidth: 10, boardHeight: 20, blockSize: 40, dropSpeed: 500, speedIncrease: 50, linesPerLevel: 10 },
+          colors: this.themes[this.currentTheme],
+          pieces: {
+            I: [[1, 1, 1, 1]], O: [[1, 1], [1, 1]], T: [[0, 1, 0], [1, 1, 1]],
+            S: [[0, 1, 1], [1, 1, 0]], Z: [[1, 1, 0], [0, 1, 1]],
+            J: [[1, 0, 0], [1, 1, 1]], L: [[0, 0, 1], [1, 1, 1]]
+          }
+        };
+        this.canvas.width = this.config.gameSettings.boardWidth * this.config.gameSettings.blockSize;
+        this.canvas.height = this.config.gameSettings.boardHeight * this.config.gameSettings.blockSize;
         this.init();
       });
   }
@@ -252,15 +264,117 @@ class TetrisGame {
   private init(): void {
     this.setupControls();
     this.setupButtons();
+    this.canvas.style.cursor = 'pointer';
+    this.gameLoop(0); // Start the game loop to show start screen
+  }
+
+  private startGame(): void {
+    this.gameStarted = true;
+    this.isGameOver = false;
+    this.isPaused = false;
+    
+    // Reset game state
+    this.board = this.createBoard();
+    this.score = 0;
+    this.level = 1;
+    this.lines = 0;
+    this.combo = 0;
+    this.totalPieces = 0;
+    this.actions = 0;
+    this.holdPiece = '';
+    this.canHold = true;
+    this.nextPieces = [];
+    this.dropTime = 0;
+    this.particles = [];
+    this.screenShake = 0;
+    this.singleLinesThisGame = 0;
+    
+    this.playSound('click');
+    this.playBackgroundMusic();
     this.generateNextPieces();
     this.spawnPiece();
     this.gameStartTime = Date.now();
-    this.gameLoop(0);
+    this.canvas.style.cursor = 'default';
+    
+    // Update UI
+    this.updateUI();
+    this.drawHoldPiece();
+    
+    const statusIndicator = document.getElementById('statusIndicator')!;
+    statusIndicator.className = 'status-indicator playing';
+    statusIndicator.innerHTML = '<i class="fas fa-play"></i> PLAYING';
+    
+    this.hideOverlay();
+  }
+
+  private drawStartScreen(): void {
+    this.ctx.fillStyle = '#000';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    if (this.isGameOver) {
+      // Background overlay
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      
+      // Game Over title with glow
+      this.ctx.shadowColor = '#ff4444';
+      this.ctx.shadowBlur = 20;
+      this.ctx.fillStyle = '#ff4444';
+      this.ctx.font = 'bold 42px Inter';
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText('GAME OVER', this.canvas.width / 2, this.canvas.height / 2 - 100);
+      this.ctx.shadowBlur = 0;
+      
+      // Stats box background
+      this.ctx.fillStyle = 'rgba(79, 70, 229, 0.2)';
+      this.ctx.strokeStyle = '#4f46e5';
+      this.ctx.lineWidth = 2;
+      const boxWidth = 280;
+      const boxHeight = 120;
+      const boxX = this.canvas.width / 2 - boxWidth / 2;
+      const boxY = this.canvas.height / 2 - 60;
+      this.ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+      this.ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
+      
+      // Stats text
+      const gameTime = Math.floor((this.gameEndTime - this.gameStartTime) / 1000);
+      const pps = this.totalPieces / Math.max(gameTime, 1);
+      const apm = Math.floor(this.actions / Math.max(gameTime / 60, 1/60));
+      
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.font = 'bold 18px Inter';
+      this.ctx.fillText('FINAL SCORE: ' + this.score.toLocaleString(), this.canvas.width / 2, boxY + 25);
+      
+      this.ctx.font = '14px Inter';
+      this.ctx.fillStyle = '#d1d5db';
+      this.ctx.fillText('Lines: ' + this.lines + '  •  Level: ' + this.level, this.canvas.width / 2, boxY + 50);
+      this.ctx.fillText('Time: ' + this.formatTime(gameTime) + '  •  PPS: ' + pps.toFixed(1), this.canvas.width / 2, boxY + 70);
+      this.ctx.fillText('APM: ' + apm, this.canvas.width / 2, boxY + 90);
+      
+      // Restart button with glow
+      this.ctx.shadowColor = '#ec4899';
+      this.ctx.shadowBlur = 15;
+      this.ctx.fillStyle = '#ec4899';
+      this.ctx.font = 'bold 24px Inter';
+      this.ctx.fillText('RESTART', this.canvas.width / 2, this.canvas.height / 2 + 100);
+      this.ctx.shadowBlur = 0;
+    } else {
+      this.ctx.fillStyle = '#a855f7';
+      this.ctx.font = 'bold 48px Inter';
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText('TETRIS ULTRA', this.canvas.width / 2, this.canvas.height / 2 - 50);
+      
+      this.ctx.fillStyle = '#ec4899';
+      this.ctx.font = 'bold 24px Inter';
+      this.ctx.fillText('Click to Start', this.canvas.width / 2, this.canvas.height / 2 + 20);
+    }
   }
 
   private setupButtons(): void {
     document.getElementById('pauseBtn')!.addEventListener('click', () => { this.playSound('click'); this.togglePause(); });
-    document.getElementById('restartBtn')!.addEventListener('click', () => { this.playSound('click'); this.restart(); });
+    
+
+
     document.getElementById('settingsBtn')!.addEventListener('click', () => { this.playSound('click'); this.showSettings(); });
     document.getElementById('closeSettings')!.addEventListener('click', () => { this.playSound('click'); this.hideSettings(); });
     document.getElementById('fullscreenBtn')!.addEventListener('click', () => { this.playSound('click'); this.toggleFullscreen(); });
@@ -284,6 +398,19 @@ class TetrisGame {
       focusBtn.innerHTML = document.body.classList.contains('focus-mode') ?
         '<i class="fas fa-eye-slash"></i> EXIT FOCUS' :
         '<i class="fas fa-eye"></i> FOCUS';
+    });
+    
+
+    
+    // Canvas click to start/restart
+    this.canvas.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.startGame();
+    });
+    
+    this.canvas.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      this.startGame();
     });
     
     // Music toggle button
@@ -338,7 +465,6 @@ class TetrisGame {
 
   private setupControls(): void {
     document.addEventListener('keydown', (e) => {
-      if (this.isGameOver) return;
       
       this.actions++;
       
@@ -369,7 +495,11 @@ class TetrisGame {
           this.playSound('click');
           break;
         case 'KeyR':
-          this.restart();
+          if (this.isGameOver || !this.gameStarted) {
+            this.startGame();
+          } else {
+            this.restart();
+          }
           break;
         case 'KeyC':
           if (!this.isPaused) this.holdCurrentPiece();
@@ -737,6 +867,18 @@ class TetrisGame {
   }
 
   private gameLoop(time: number): void {
+    if (!this.gameStarted) {
+      this.drawStartScreen();
+      requestAnimationFrame((time) => this.gameLoop(time));
+      return;
+    }
+    
+    if (this.isGameOver) {
+      this.drawStartScreen();
+      requestAnimationFrame((time) => this.gameLoop(time));
+      return;
+    }
+    
     if (!this.isPaused && !this.isGameOver) {
       const deltaTime = time - this.lastTime;
       this.dropTime += deltaTime;
@@ -934,6 +1076,7 @@ class TetrisGame {
 
   private gameOver(): void {
     this.isGameOver = true;
+    this.gameEndTime = Date.now();
     this.stopBackgroundMusic();
     this.playSound('gameOver');
     this.updateHighScores();
@@ -947,21 +1090,7 @@ class TetrisGame {
     }
     
     this.saveData();
-    
-    const gameTime = Math.floor((Date.now() - this.gameStartTime) / 1000);
-    const pps = this.totalPieces / Math.max(gameTime, 1);
-    const apm = Math.floor(this.actions / Math.max(gameTime / 60, 1/60));
-    
-    const stats = '<div style=\"display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; color: #d1d5db;\">' +
-                 '<div>Final Score: <span style=\"color: #4f46e5;\">' + this.score.toLocaleString() + '</span></div>' +
-                 '<div>Lines: <span style=\"color: #4f46e5;\">' + this.lines + '</span></div>' +
-                 '<div>Level: <span style=\"color: #4f46e5;\">' + this.level + '</span></div>' +
-                 '<div>Time: <span style=\"color: #4f46e5;\">' + this.formatTime(gameTime) + '</span></div>' +
-                 '<div>PPS: <span style=\"color: #4f46e5;\">' + pps.toFixed(1) + '</span></div>' +
-                 '<div>APM: <span style=\"color: #4f46e5;\">' + apm + '</span></div>' +
-                 '</div>';
-    
-    this.showOverlay('GAME OVER', 'Press R to restart', stats);
+    this.canvas.style.cursor = 'pointer';
   }
 
   private togglePause(): void {

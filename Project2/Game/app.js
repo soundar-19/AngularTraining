@@ -15,6 +15,7 @@ var TetrisGame = /** @class */ (function () {
         this.dropTime = 0;
         this.lastTime = 0;
         this.gameStartTime = 0;
+        this.gameEndTime = 0;
         this.isPaused = false;
         this.isGameOver = false;
         this.highScores = [0, 0, 0, 0, 0];
@@ -43,6 +44,7 @@ var TetrisGame = /** @class */ (function () {
         this.backgroundMusic = null;
         this.currentMusicTrack = 0;
         this.musicTracks = ['sounds/Background.mp3', 'sounds/Background2.mp3'];
+        this.gameStarted = false;
         this.themes = [
             {
                 I: '#00bcd4', O: '#ffeb3b', T: '#9c27b0', S: '#4caf50',
@@ -98,11 +100,21 @@ var TetrisGame = /** @class */ (function () {
             _this.config.colors = _this.themes[_this.currentTheme];
             _this.canvas.width = _this.config.gameSettings.boardWidth * _this.config.gameSettings.blockSize;
             _this.canvas.height = _this.config.gameSettings.boardHeight * _this.config.gameSettings.blockSize;
-            _this.playBackgroundMusic();
             _this.init();
         })
             .catch(function (error) {
             console.error('Failed to load config:', error);
+            _this.config = {
+                gameSettings: { boardWidth: 10, boardHeight: 20, blockSize: 40, dropSpeed: 500, speedIncrease: 50, linesPerLevel: 10 },
+                colors: _this.themes[_this.currentTheme],
+                pieces: {
+                    I: [[1, 1, 1, 1]], O: [[1, 1], [1, 1]], T: [[0, 1, 0], [1, 1, 1]],
+                    S: [[0, 1, 1], [1, 1, 0]], Z: [[1, 1, 0], [0, 1, 1]],
+                    J: [[1, 0, 0], [1, 1, 1]], L: [[0, 0, 1], [1, 1, 1]]
+                }
+            };
+            _this.canvas.width = _this.config.gameSettings.boardWidth * _this.config.gameSettings.blockSize;
+            _this.canvas.height = _this.config.gameSettings.boardHeight * _this.config.gameSettings.blockSize;
             _this.init();
         });
     };
@@ -219,15 +231,100 @@ var TetrisGame = /** @class */ (function () {
     TetrisGame.prototype.init = function () {
         this.setupControls();
         this.setupButtons();
+        this.canvas.style.cursor = 'pointer';
+        this.gameLoop(0); // Start the game loop to show start screen
+    };
+    TetrisGame.prototype.startGame = function () {
+        this.gameStarted = true;
+        this.isGameOver = false;
+        this.isPaused = false;
+        // Reset game state
+        this.board = this.createBoard();
+        this.score = 0;
+        this.level = 1;
+        this.lines = 0;
+        this.combo = 0;
+        this.totalPieces = 0;
+        this.actions = 0;
+        this.holdPiece = '';
+        this.canHold = true;
+        this.nextPieces = [];
+        this.dropTime = 0;
+        this.particles = [];
+        this.screenShake = 0;
+        this.singleLinesThisGame = 0;
+        this.playSound('click');
+        this.playBackgroundMusic();
         this.generateNextPieces();
         this.spawnPiece();
         this.gameStartTime = Date.now();
-        this.gameLoop(0);
+        this.canvas.style.cursor = 'default';
+        // Update UI
+        this.updateUI();
+        this.drawHoldPiece();
+        var statusIndicator = document.getElementById('statusIndicator');
+        statusIndicator.className = 'status-indicator playing';
+        statusIndicator.innerHTML = '<i class="fas fa-play"></i> PLAYING';
+        this.hideOverlay();
+    };
+    TetrisGame.prototype.drawStartScreen = function () {
+        this.ctx.fillStyle = '#000';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        if (this.isGameOver) {
+            // Background overlay
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            // Game Over title with glow
+            this.ctx.shadowColor = '#ff4444';
+            this.ctx.shadowBlur = 20;
+            this.ctx.fillStyle = '#ff4444';
+            this.ctx.font = 'bold 42px Inter';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('GAME OVER', this.canvas.width / 2, this.canvas.height / 2 - 100);
+            this.ctx.shadowBlur = 0;
+            // Stats box background
+            this.ctx.fillStyle = 'rgba(79, 70, 229, 0.2)';
+            this.ctx.strokeStyle = '#4f46e5';
+            this.ctx.lineWidth = 2;
+            var boxWidth = 280;
+            var boxHeight = 120;
+            var boxX = this.canvas.width / 2 - boxWidth / 2;
+            var boxY = this.canvas.height / 2 - 60;
+            this.ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+            this.ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
+            // Stats text
+            var gameTime = Math.floor((this.gameEndTime - this.gameStartTime) / 1000);
+            var pps = this.totalPieces / Math.max(gameTime, 1);
+            var apm = Math.floor(this.actions / Math.max(gameTime / 60, 1 / 60));
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.font = 'bold 18px Inter';
+            this.ctx.fillText('FINAL SCORE: ' + this.score.toLocaleString(), this.canvas.width / 2, boxY + 25);
+            this.ctx.font = '14px Inter';
+            this.ctx.fillStyle = '#d1d5db';
+            this.ctx.fillText('Lines: ' + this.lines + '  •  Level: ' + this.level, this.canvas.width / 2, boxY + 50);
+            this.ctx.fillText('Time: ' + this.formatTime(gameTime) + '  •  PPS: ' + pps.toFixed(1), this.canvas.width / 2, boxY + 70);
+            this.ctx.fillText('APM: ' + apm, this.canvas.width / 2, boxY + 90);
+            // Restart button with glow
+            this.ctx.shadowColor = '#ec4899';
+            this.ctx.shadowBlur = 15;
+            this.ctx.fillStyle = '#ec4899';
+            this.ctx.font = 'bold 24px Inter';
+            this.ctx.fillText('RESTART', this.canvas.width / 2, this.canvas.height / 2 + 100);
+            this.ctx.shadowBlur = 0;
+        }
+        else {
+            this.ctx.fillStyle = '#a855f7';
+            this.ctx.font = 'bold 48px Inter';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('TETRIS ULTRA', this.canvas.width / 2, this.canvas.height / 2 - 50);
+            this.ctx.fillStyle = '#ec4899';
+            this.ctx.font = 'bold 24px Inter';
+            this.ctx.fillText('Click to Start', this.canvas.width / 2, this.canvas.height / 2 + 20);
+        }
     };
     TetrisGame.prototype.setupButtons = function () {
         var _this = this;
         document.getElementById('pauseBtn').addEventListener('click', function () { _this.playSound('click'); _this.togglePause(); });
-        document.getElementById('restartBtn').addEventListener('click', function () { _this.playSound('click'); _this.restart(); });
         document.getElementById('settingsBtn').addEventListener('click', function () { _this.playSound('click'); _this.showSettings(); });
         document.getElementById('closeSettings').addEventListener('click', function () { _this.playSound('click'); _this.hideSettings(); });
         document.getElementById('fullscreenBtn').addEventListener('click', function () { _this.playSound('click'); _this.toggleFullscreen(); });
@@ -249,6 +346,15 @@ var TetrisGame = /** @class */ (function () {
             focusBtn.innerHTML = document.body.classList.contains('focus-mode') ?
                 '<i class="fas fa-eye-slash"></i> EXIT FOCUS' :
                 '<i class="fas fa-eye"></i> FOCUS';
+        });
+        // Canvas click to start/restart
+        this.canvas.addEventListener('click', function (e) {
+            e.preventDefault();
+            _this.startGame();
+        });
+        this.canvas.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            _this.startGame();
         });
         // Music toggle button
         document.getElementById('musicToggle').addEventListener('click', function () {
@@ -294,8 +400,6 @@ var TetrisGame = /** @class */ (function () {
     TetrisGame.prototype.setupControls = function () {
         var _this = this;
         document.addEventListener('keydown', function (e) {
-            if (_this.isGameOver)
-                return;
             _this.actions++;
             switch (e.code) {
                 case 'ArrowLeft':
@@ -327,7 +431,12 @@ var TetrisGame = /** @class */ (function () {
                     _this.playSound('click');
                     break;
                 case 'KeyR':
-                    _this.restart();
+                    if (_this.isGameOver || !_this.gameStarted) {
+                        _this.startGame();
+                    }
+                    else {
+                        _this.restart();
+                    }
                     break;
                 case 'KeyC':
                     if (!_this.isPaused)
@@ -684,6 +793,16 @@ var TetrisGame = /** @class */ (function () {
     };
     TetrisGame.prototype.gameLoop = function (time) {
         var _this = this;
+        if (!this.gameStarted) {
+            this.drawStartScreen();
+            requestAnimationFrame(function (time) { return _this.gameLoop(time); });
+            return;
+        }
+        if (this.isGameOver) {
+            this.drawStartScreen();
+            requestAnimationFrame(function (time) { return _this.gameLoop(time); });
+            return;
+        }
         if (!this.isPaused && !this.isGameOver) {
             var deltaTime = time - this.lastTime;
             this.dropTime += deltaTime;
@@ -839,6 +958,7 @@ var TetrisGame = /** @class */ (function () {
     };
     TetrisGame.prototype.gameOver = function () {
         this.isGameOver = true;
+        this.gameEndTime = Date.now();
         this.stopBackgroundMusic();
         this.playSound('gameOver');
         this.updateHighScores();
@@ -849,18 +969,7 @@ var TetrisGame = /** @class */ (function () {
             this.unlockAchievement('perfectionist');
         }
         this.saveData();
-        var gameTime = Math.floor((Date.now() - this.gameStartTime) / 1000);
-        var pps = this.totalPieces / Math.max(gameTime, 1);
-        var apm = Math.floor(this.actions / Math.max(gameTime / 60, 1 / 60));
-        var stats = '<div style=\"display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px; color: #d1d5db;\">' +
-            '<div>Final Score: <span style=\"color: #4f46e5;\">' + this.score.toLocaleString() + '</span></div>' +
-            '<div>Lines: <span style=\"color: #4f46e5;\">' + this.lines + '</span></div>' +
-            '<div>Level: <span style=\"color: #4f46e5;\">' + this.level + '</span></div>' +
-            '<div>Time: <span style=\"color: #4f46e5;\">' + this.formatTime(gameTime) + '</span></div>' +
-            '<div>PPS: <span style=\"color: #4f46e5;\">' + pps.toFixed(1) + '</span></div>' +
-            '<div>APM: <span style=\"color: #4f46e5;\">' + apm + '</span></div>' +
-            '</div>';
-        this.showOverlay('GAME OVER', 'Press R to restart', stats);
+        this.canvas.style.cursor = 'pointer';
     };
     TetrisGame.prototype.togglePause = function () {
         if (this.isGameOver)
