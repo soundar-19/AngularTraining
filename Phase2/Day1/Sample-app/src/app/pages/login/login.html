@@ -1,0 +1,9 @@
+<main>
+    <div class="login-box">
+        <h1>Login</h1>
+        <input type="text" #username placeholder="Username">
+        <input type="password" #password placeholder="Password">
+        <button (click)="login(username, password)">Login</button>
+        <p>{{message}}</p>
+    </div>
+</main>

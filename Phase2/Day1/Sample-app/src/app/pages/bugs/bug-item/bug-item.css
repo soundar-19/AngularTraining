@@ -1,0 +1,134 @@
+.bug-item {
+  border: 1px solid #e9ecef;
+  padding: 24px;
+  margin: 16px 0;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.bug-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+}
+
+.bug-item:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.bug-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.bug-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.status-btn:hover {
+  background: #059669;
+  transform: scale(1.1);
+}
+
+.bug-id {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6c757d;
+  background: #f1f3f4;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status.open {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.status.closed {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(107, 114, 128, 0.3);
+}
+
+.bug-item h3 {
+  margin: 0 0 8px 0;
+  color: #1f2937;
+  font-size: 1.25em;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.bug-item p {
+  margin: 0 0 16px 0;
+  color: #6b7280;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.bug-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.priority {
+  padding: 6px 16px;
+  border-radius: 25px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.priority.high {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.priority.medium {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+}
+
+.priority.low {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+}

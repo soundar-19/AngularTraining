@@ -1,0 +1,97 @@
+<div class="bugs-container">
+  <div class="bugs-header">
+    <h1>🐛 Bug Tracker</h1>
+    <button class="add-bug-btn" (click)="toggleAddForm()">+ Add New Bug</button>
+  </div>
+
+  <!-- Add Bug Form -->
+  <div class="add-bug-form" [hidden]="!showAddForm">
+    <div class="form-card">
+      <h3>Create New Bug Report</h3>
+      <div class="form-row">
+        <input type="text" #titleInput placeholder="Bug Title" class="form-input">
+      </div>
+      <div class="form-row">
+        <textarea #descInput placeholder="Bug Description" class="form-textarea"></textarea>
+      </div>
+      <div class="form-row">
+        <select #priorityInput class="form-select">
+          <option value="">Select Priority</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button class="btn-primary" (click)="addBug(titleInput, descInput, priorityInput)">Create Bug</button>
+        <button class="btn-secondary" (click)="toggleAddForm()">Cancel</button>
+      </div>
+      <p class="form-message">{{message}}</p>
+    </div>
+  </div>
+
+  <!-- Bug Stats -->
+  <div class="bug-stats">
+    <div class="stat-card">
+      <span class="stat-number">{{totalBugs}}</span>
+      <span class="stat-label">Total Bugs</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{showingBugs}}</span>
+      <span class="stat-label">Showing</span>
+    </div>
+  </div>
+
+  <!-- Bugs List -->
+  <div class="bugs-list">
+    <app-bug-item 
+      [hidden]="!showBug1"
+      [id]="1"
+      title="Login Authentication Failed" 
+      description="Users are unable to authenticate with valid credentials" 
+      priority="High"
+      [status]="bug1Status"
+      (toggleStatus)="toggleBugStatus($event)">
+    </app-bug-item>
+    
+    <app-bug-item 
+      [hidden]="!showBug2"
+      [id]="2"
+      title="Submit Button Unresponsive" 
+      description="Form submission button does not respond to clicks" 
+      priority="Medium"
+      [status]="bug2Status"
+      (toggleStatus)="toggleBugStatus($event)">
+    </app-bug-item>
+    
+    <app-bug-item 
+      [hidden]="!showBug3"
+      [id]="3"
+      title="Page Load Performance" 
+      description="Dashboard takes more than 3 seconds to load" 
+      priority="Low"
+      [status]="bug3Status"
+      (toggleStatus)="toggleBugStatus($event)">
+    </app-bug-item>
+    
+    <app-bug-item 
+      [hidden]="!showBug4"
+      [id]="4"
+      [title]="newBug4.title" 
+      [description]="newBug4.description" 
+      [priority]="newBug4.priority"
+      [status]="bug4Status"
+      (toggleStatus)="toggleBugStatus($event)">
+    </app-bug-item>
+    
+    <app-bug-item 
+      [hidden]="!showBug5"
+      [id]="5"
+      [title]="newBug5.title" 
+      [description]="newBug5.description" 
+      [priority]="newBug5.priority"
+      [status]="bug5Status"
+      (toggleStatus)="toggleBugStatus($event)">
+    </app-bug-item>
+  </div>
+</div>
