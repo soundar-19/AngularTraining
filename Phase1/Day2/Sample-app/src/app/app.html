@@ -1,0 +1,31 @@
+<p-menubar [model]="menuItems">
+  <ng-template pTemplate="start">
+    <h2 style="margin: 0;">{{appName}}</h2>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <button pButton icon="pi pi-bars" (click)="sidebarVisible=true"></button>
+  </ng-template>  
+</p-menubar>
+
+<p-drawer [(visible)]="sidebarVisible" position="left">
+  <h2 style="margin: 10px;">Menu</h2>
+  <ul>
+    @for (item of menuItems; track $index) {
+      <li style="margin: 8px 0;">
+        <a class="sidebar-link" [routerLink]="item.routerLink" (click)="sidebarVisible=false">
+          <i [class]="item.icon"></i> {{item.label}}
+        </a>
+      </li>
+    }
+  </ul>
+</p-drawer>
+
+<main style="padding: 16px;">
+  <div class="grid"> 
+    <div class="col-12">
+      <p-card>
+        <router-outlet></router-outlet>
+      </p-card>
+    </div>
+  </div>
+</main>
