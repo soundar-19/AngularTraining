@@ -1,0 +1,43 @@
+.main-header {
+    padding: 1rem;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.page-title {
+    font-family: 'Arial', sans-serif;
+    color: #2c3e50;
+    text-align: center;
+    font-size: 2rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 1rem 0;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #4b5563;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: #f3f4f6;
+    color: #2563eb;
+}
+
+.nav-link.active {
+    background: #2563eb;
+    color: white;
+}

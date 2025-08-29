@@ -1,0 +1,16 @@
+<div class="bug-item">
+  <div class="bug-header">
+    <span class="bug-id">#{{id}}</span>
+    <div class="bug-actions">
+      <span class="status" [class]="status.toLowerCase()">{{status}}</span>
+      <button class="status-btn" (click)="onToggleStatus()" [title]="status === 'Open' ? 'Close Bug' : 'Reopen Bug'">
+        {{status === 'Open' ? '✓' : '↻'}}
+      </button>
+    </div>
+  </div>
+  <h3>{{title}}</h3>
+  <p>{{description}}</p>
+  <div class="bug-footer">
+    <span class="priority" [class]="priority.toLowerCase()">{{priority}}</span>
+  </div>
+</div>

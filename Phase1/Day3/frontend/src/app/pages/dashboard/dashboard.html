@@ -1,0 +1,94 @@
+<main>
+    <div class="dashboard-header">
+        <h1>📊 Project Dashboard</h1>
+        <p class="dashboard-subtitle">Real-time bug tracking and analytics</p>
+    </div>
+    
+    <div class="dashboard-grid">
+        <!-- Stats Cards -->
+        <div class="stats-section">
+            <div class="card stats-card total">
+                <div class="card-icon">🐛</div>
+                <div class="card-content">
+                    <h3>Total Bugs</h3>
+                    <p class="stat-number">{{ totalBugs }}</p>
+                    <span class="stat-change">All time</span>
+                </div>
+            </div>
+            
+            <div class="card stats-card open">
+                <div class="card-icon">🔴</div>
+                <div class="card-content">
+                    <h3>Open Bugs</h3>
+                    <p class="stat-number">{{ openBugs }}</p>
+                    <span class="stat-change">Active issues</span>
+                </div>
+            </div>
+            
+            <div class="card stats-card closed">
+                <div class="card-icon">✅</div>
+                <div class="card-content">
+                    <h3>Closed Bugs</h3>
+                    <p class="stat-number">{{ closedBugs }}</p>
+                    <span class="stat-change">Resolved</span>
+                </div>
+            </div>
+            
+            <div class="card stats-card priority">
+                <div class="card-icon">⚠️</div>
+                <div class="card-content">
+                    <h3>High Priority</h3>
+                    <p class="stat-number">{{ highPriorityBugs }}</p>
+                    <span class="stat-change">Needs attention</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="activity-section">
+            <div class="card activity-card">
+                <h3>🕰️ Recent Activity</h3>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-dot new"></div>
+                        <div class="activity-content">
+                            <p class="activity-action">Bug #1 reported</p>
+                            <span class="activity-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot closed"></div>
+                        <div class="activity-content">
+                            <p class="activity-action">Bug #3 closed</p>
+                            <span class="activity-time">1 day ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-dot updated"></div>
+                        <div class="activity-content">
+                            <p class="activity-action">Bug #2 updated</p>
+                            <span class="activity-time">3 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="actions-section">
+            <div class="card actions-card">
+                <h3>⚡ Quick Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-btn primary" routerLink="/bugs">
+                        <span class="btn-icon">🐛</span>
+                        View All Bugs
+                    </button>
+                    <button class="action-btn secondary" routerLink="/bugs">
+                        <span class="btn-icon">➕</span>
+                        Report New Bug
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

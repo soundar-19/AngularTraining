@@ -1,0 +1,13 @@
+<header class="main-header">
+    <h1 class="page-title">{{title()}}</h1>
+    <nav class="main-nav">
+        <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
+        <a routerLink="/bugs" routerLinkActive="active" class="nav-link">Bugs</a>
+    </nav>
+</header>
+<main>
+    <router-outlet></router-outlet>
+</main>
+
+
