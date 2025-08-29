@@ -1,0 +1,24 @@
+<header class="header" [class.scrolled]="isScrolled">
+  <div class="container">
+    <nav class="nav">
+      <div class="logo">
+        <a routerLink="/" class="logo-link">
+          <span class="logo-text">SR</span>
+        </a>
+      </div>
+      
+      <div class="nav-links" [class.active]="isMenuOpen">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Home</a>
+        <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
+        <a routerLink="/project" routerLinkActive="active" (click)="closeMenu()">Projects</a>
+        <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">Contact</a>
+      </div>
+      
+      <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,5 @@
+<a [href]="action.link" class="action-card" [target]="action.isExternal ? '_blank' : '_self'">
+  <div class="action-icon" [innerHTML]="safeIcon"></div>
+  <h3>{{ action.title }}</h3>
+  <p>{{ action.description }}</p>
+</a>

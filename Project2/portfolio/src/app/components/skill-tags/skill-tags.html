@@ -1,0 +1,8 @@
+<div class="tech-stack" [class.skill-tags]="isSkillTags">
+  <div class="skill-card" 
+       [style.--skill-color]="skillItem.color"
+       *ngFor="let skillItem of skillsWithIcons">
+    <div class="skill-icon" [innerHTML]="skillItem.icon"></div>
+    <span class="skill-name">{{ skillItem.name }}</span>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title fade-in">
+          Hi, I'm <span class="gradient-text">Soundar Raja B</span>
+        </h1>
+        <p class="hero-subtitle fade-in fade-in-delay-1">Full-Stack Developer & Problem Solver</p>
+        <p class="hero-description fade-in fade-in-delay-2">
+          Passionate about creating innovative web solutions with modern technologies.
+          Specialized in MERN stack with 700+ LeetCode problems solved.
+        </p>
+        <div class="hero-buttons fade-in fade-in-delay-3">
+          <a routerLink="/project" class="btn btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            View My Work
+          </a>
+          <a routerLink="/contact" class="btn btn-outline">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            Get In Touch
+          </a>
+        </div>
+        <div class="hero-stats fade-in fade-in-delay-4">
+          <div class="stat">
+            <span class="stat-number">700+</span>
+            <span class="stat-label">Problems Solved</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">Projects Built</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">1+</span>
+            <span class="stat-label">Months Experience</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual slide-in-right">
+        <div class="code-window floating">
+          <div class="window-header">
+            <div class="window-controls">
+              <div class="control red"></div>
+              <div class="control yellow"></div>
+              <div class="control green"></div>
+            </div>
+            <div class="window-title">portfolio.js</div>
+          </div>
+          <div class="code-content">
+            <div class="code-line" data-line="1">
+              <span class="keyword">const </span> <span class="variable">developer</span> = {{ '{' }}
+            </div>
+            <div class="code-line" data-line="2">
+              &nbsp;&nbsp;<span class="property">name</span>: <span class="string">'Soundar Raja B'</span>,
+            </div>
+            <div class="code-line" data-line="3">
+              &nbsp;&nbsp;<span class="property">skills</span>: [<span class="string">'React'</span>, <span class="string">'Node.js'</span>, <span class="string">'Angular'</span>],
+            </div>
+            <div class="code-line" data-line="4">
+              &nbsp;&nbsp;<span class="property">passion</span>: <span class="string">'Problem Solving'</span>,
+            </div>
+            <div class="code-line" data-line="5">
+              &nbsp;&nbsp;<span class="property">leetcode</span>: <span class="number">700</span><span class="keyword">+</span>,
+            </div>
+            <div class="code-line" data-line="6">
+              &nbsp;&nbsp;<span class="property">available</span>: <span class="keyword">true</span>
+            </div>
+            <div class="code-line" data-line="7">
+              {{ '}' }};
+            </div>
+            <div class="code-line" data-line="8">
+              <span class="comment">// Ready to build amazing things!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="highlights section">
+  <div class="container">
+    <h2 class="section-title fade-in">Featured Project</h2>
+    <p class="section-subtitle fade-in fade-in-delay-1">
+      Showcasing innovation through cutting-edge technology and creative problem-solving
+    </p>
+    <div class="highlight-card fade-in fade-in-delay-2">
+      <div class="highlight-content">
+        <h3>{{ featuredProject.title }}</h3>
+        <p>{{ featuredProject.description }}</p>
+        <app-skill-tags [skills]="featuredProject.techStack"></app-skill-tags>
+        <a routerLink="/project" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14,2 14,8 20,8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10,9 9,9 8,9"/>
+          </svg>
+          View All Projects
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

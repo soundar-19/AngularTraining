@@ -1,0 +1,8 @@
+<div class="stat-card" [class.achievement-card]="isAchievement" [class.clickable]="stat.url" (click)="onCardClick()">
+  <div class="stat-icon" [class.achievement-icon]="isAchievement">
+    <span *ngIf="stat.iconType === 'emoji'">{{ stat.icon }}</span>
+    <div *ngIf="stat.iconType === 'svg'" [innerHTML]="getSafeHtml(stat.icon)"></div>
+  </div>
+  <h3>{{ stat.title }}</h3>
+  <p>{{ stat.subtitle }}</p>
+</div>
