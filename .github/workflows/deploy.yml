@@ -1,4 +1,4 @@
-name: Deploy Portfolio to GitHub Pages
+name: Deploy All Projects to GitHub Pages
 
 on:
   push:
@@ -24,21 +24,40 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: 'Project2/portfolio/package-lock.json'
       
-      - name: Install dependencies
+      - name: Install Portfolio dependencies
         run: npm ci
         working-directory: Project2/portfolio
       
-      - name: Build
-        run: npm run build -- --base-href="/AngularTraining/"
+      - name: Build Portfolio
+        run: npm run build -- --base-href="/AngularTraining/Project2/portfolio/"
         working-directory: Project2/portfolio
+      
+      - name: Install Student Management dependencies
+        run: npm ci
+        working-directory: Assessments/Week6/student-management
+      
+      - name: Build Student Management
+        run: npm run build -- --base-href="/AngularTraining/Assessments/Week6/student-management/"
+        working-directory: Assessments/Week6/student-management
+      
+      - name: Create deployment directory
+        run: |
+          mkdir -p deploy
+          cp index.html deploy/
+          cp .nojekyll deploy/
+          cp -r Phase1 deploy/
+          cp -r Phase2 deploy/
+          mkdir -p deploy/Project2/portfolio
+          cp -r Project2/portfolio/dist/portfolio/browser/* deploy/Project2/portfolio/
+          cp -r Project2/Game deploy/Project2/
+          mkdir -p deploy/Assessments/Week6/student-management
+          cp -r Assessments/Week6/student-management/dist/student-management/browser/* deploy/Assessments/Week6/student-management/
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: Project2/portfolio/dist/portfolio/browser
+          path: deploy
 
   deploy:
     environment:

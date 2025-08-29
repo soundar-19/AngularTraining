@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Training Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .header { text-align: center; color: white; margin-bottom: 3rem; }
+        .header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .header p { font-size: 1.2rem; opacity: 0.9; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .project-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 2rem; border: 1px solid rgba(255,255,255,0.2); transition: transform 0.3s ease; }
+        .project-card:hover { transform: translateY(-5px); }
+        .project-card h3 { color: white; margin-bottom: 1rem; font-size: 1.5rem; }
+        .project-card p { color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; }
+        .btn { display: inline-block; padding: 0.8rem 2rem; background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s ease; }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .phase { margin-bottom: 3rem; }
+        .phase-title { color: white; font-size: 2rem; margin-bottom: 2rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🅰️ Angular Training Hub</h1>
+            <p>Master Angular One Concept at a Time</p>
+        </div>
+
+        <div class="phase">
+            <h2 class="phase-title">🚀 Featured Portfolio</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Modern Portfolio</h3>
+                    <p>Complete Angular 20 portfolio with modern UI, animations, and responsive design</p>
+                    <a href="Project2/portfolio/" class="btn">View Portfolio</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="phase">
+            <h2 class="phase-title">📚 Phase 1: Foundation</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>TypeScript Calculator</h3>
+                    <p>Basic calculator built with TypeScript, HTML, and CSS</p>
+                    <a href="Phase1/Ts-Calculator/index.html" class="btn">Launch App</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="phase">
+            <h2 class="phase-title">⚡ Phase 2: Core Concepts</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Modern Calculator</h3>
+                    <p>Advanced calculator with dark theme and keyboard support</p>
+                    <a href="Phase2/Calculator/index.html" class="btn">Launch App</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="phase">
+            <h2 class="phase-title">🎮 Project 2: Advanced</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Tetris Ultra</h3>
+                    <p>Modern Tetris game with achievements, themes, and sound effects</p>
+                    <a href="Project2/Game/index.html" class="btn">Play Game</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="phase">
+            <h2 class="phase-title">📝 Assessments</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Student Management</h3>
+                    <p>Week 6 assessment - Angular application with CRUD operations</p>
+                    <a href="Assessments/Week6/student-management/" class="btn">View Project</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

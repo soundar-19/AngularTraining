@@ -90,7 +90,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "/AngularTraining/",
+            "baseHref": "/AngularTraining/Project2/portfolio/",
             "dir": "dist/portfolio/browser",
             "repo": "https://github.com/soundar-19/AngularTraining.git",
             "branch": "gh-pages"
