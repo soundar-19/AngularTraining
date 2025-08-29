@@ -26,7 +26,7 @@ jobs:
           node-version: '20'
       
       - name: Install Portfolio dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
         working-directory: Project2/portfolio
       
       - name: Build Portfolio
@@ -34,7 +34,7 @@ jobs:
         working-directory: Project2/portfolio
       
       - name: Install Student Management dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
         working-directory: Assessments/Week6/student-management
       
       - name: Build Student Management
@@ -42,7 +42,7 @@ jobs:
         working-directory: Assessments/Week6/student-management
       
       - name: Install Day2-portfolio dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
         working-directory: Project2/Day2-portfolio
       
       - name: Build Day2-portfolio
