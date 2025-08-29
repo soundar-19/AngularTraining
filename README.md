@@ -11,6 +11,9 @@
 
 </div>
 
+## Live Projects
+[Click Me!](https://soundar-19.github.io/AngularTraining/)
+
 ## 🌟 Learning Philosophy
 
 <table>
