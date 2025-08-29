@@ -1,0 +1,159 @@
+<div class="student-list-container">
+  <div class="student-card">
+    <h1 class="page-title">Student Directory</h1>
+    <p class="page-subtitle">Manage and view all registered students</p>
+    
+    <div *ngIf="students.length === 0" class="no-data">
+      <div class="no-data-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <h3 class="no-data-title">No Students Found</h3>
+      <p class="no-data-message">Start building your student database by registering the first student.</p>
+      <a routerLink="/register" class="no-data-action">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Register First Student
+      </a>
+    </div>
+
+    <div *ngIf="students.length > 0" class="table-container">
+      <table class="student-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Age</th>
+            <th>Department</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of students" 
+              (click)="onRowSelect(student)" 
+              class="clickable-row">
+            <td>{{student.name}}</td>
+            <td>{{student.email}}</td>
+            <td>{{student.age}}</td>
+            <td>{{getDepartmentLabel(student.department)}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Edit Dialog -->
+  <div *ngIf="displayDialog" class="dialog-overlay" (click)="onCancel()">
+    <div class="dialog-content" (click)="$event.stopPropagation()">
+      <div class="dialog-header">
+        <h3 class="dialog-title">Edit Student Details</h3>
+        <button class="close-btn" (click)="onCancel()">
+          <svg viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+      
+      <form [formGroup]="editForm" class="edit-form">
+        <div class="form-group">
+          <label for="editName" class="form-label">Full Name *</label>
+          <input 
+            id="editName" 
+            type="text"
+            formControlName="name"
+            class="form-input"
+            [class.invalid]="isFieldInvalid('name')"
+            placeholder="Enter full name"
+          />
+          <div *ngIf="getFieldError('name')" class="error-message">
+            <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            {{getFieldError('name')}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="editEmail" class="form-label">Email Address *</label>
+          <input 
+            id="editEmail" 
+            type="email"
+            formControlName="email"
+            class="form-input"
+            [class.invalid]="isFieldInvalid('email')"
+            placeholder="Enter email address"
+          />
+          <div *ngIf="getFieldError('email')" class="error-message">
+            <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            {{getFieldError('email')}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="editAge" class="form-label">Age *</label>
+          <input 
+            id="editAge" 
+            type="number"
+            formControlName="age"
+            class="form-input"
+            [class.invalid]="isFieldInvalid('age')"
+            placeholder="Enter age (16-45)"
+            min="16"
+            max="45"
+          />
+          <div *ngIf="getFieldError('age')" class="error-message">
+            <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            {{getFieldError('age')}}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="editDepartment" class="form-label">Department *</label>
+          <select 
+            id="editDepartment"
+            formControlName="department"
+            class="form-input"
+            [class.invalid]="isFieldInvalid('department')"
+          >
+            <option value="">Select department</option>
+            <option *ngFor="let dept of departments" [value]="dept.value">
+              {{dept.label}}
+            </option>
+          </select>
+          <div *ngIf="getFieldError('department')" class="error-message">
+            <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            {{getFieldError('department')}}
+          </div>
+        </div>
+      </form>
+
+      <div class="dialog-footer">
+        <button class="cancel-btn" (click)="onCancel()">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+          Cancel
+        </button>
+        <button class="save-btn" (click)="onSave()" [disabled]="editForm.invalid">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

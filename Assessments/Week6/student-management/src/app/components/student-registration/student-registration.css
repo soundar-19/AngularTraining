@@ -1,0 +1,237 @@
+.registration-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 80vh;
+  padding: var(--space-8);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.registration-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: white;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--neutral-200);
+  padding: var(--space-10);
+  position: relative;
+}
+
+.registration-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+}
+
+.page-title {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--neutral-900);
+  text-align: center;
+  margin-bottom: var(--space-2);
+  letter-spacing: -0.025em;
+}
+
+.page-subtitle {
+  font-size: var(--text-base);
+  color: var(--neutral-600);
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.registration-form {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--neutral-700);
+  margin-bottom: var(--space-1);
+}
+
+.form-input {
+  padding: var(--space-4);
+  border: 1px solid var(--neutral-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  transition: all 0.15s ease-in-out;
+  background-color: white;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.form-input::placeholder {
+  color: var(--neutral-400);
+}
+
+.form-input.invalid {
+  border-color: var(--error-500);
+}
+
+.form-input.invalid:focus {
+  box-shadow: 0 0 0 3px var(--error-100);
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--error-600);
+  font-weight: 500;
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--error-50);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--error-500);
+}
+
+.error-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-6);
+}
+
+.submit-btn {
+  background-color: var(--primary-600);
+  color: white;
+  border: none;
+  padding: var(--space-4) var(--space-10);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: var(--primary-700);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+.submit-btn:focus {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+.submit-btn:disabled {
+  background-color: var(--neutral-300);
+  color: var(--neutral-500);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Success State */
+.form-success {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-8);
+  border-radius: var(--radius-2xl);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  background-color: var(--success-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-6);
+}
+
+.success-icon svg {
+  width: 32px;
+  height: 32px;
+  color: var(--success-600);
+}
+
+.success-title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--neutral-900);
+  margin-bottom: var(--space-2);
+}
+
+.success-message {
+  font-size: var(--text-base);
+  color: var(--neutral-600);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .registration-container {
+    padding: var(--space-4);
+  }
+  
+  .registration-card {
+    padding: var(--space-6);
+  }
+  
+  .page-title {
+    font-size: var(--text-2xl);
+  }
+  
+  .form-input {
+    padding: var(--space-3);
+  }
+  
+  .submit-btn {
+    padding: var(--space-3) var(--space-8);
+    font-size: var(--text-sm);
+  }
+}
