@@ -18,7 +18,7 @@
 
 ---
 ## Portfolio
-[🌐 Live Demo](https://soundar-19.github.io/AngularTraining/#/)
+[🌐 Live Demo](https://soundar-19.github.io/AngularTraining/Project2/Day2-portfolio/)
 ## 📊 Project Overview
 
 ```mermaid

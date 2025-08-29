@@ -9,7 +9,7 @@
 
 ### *A Professional Student Management Application Built with Angular 20*
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_Application-FF6B6B?style=for-the-badge)](http://localhost:4200)
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-View_Application-FF6B6B?style=for-the-badge)](https://soundar-19.github.io/AngularTraining/Assessments/Week6/student-management/register)
 [![Documentation](https://img.shields.io/badge/📖_Documentation-Complete-4CAF50?style=for-the-badge)](#documentation)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 

@@ -41,6 +41,14 @@ jobs:
         run: npm run build -- --base-href="/AngularTraining/Assessments/Week6/student-management/"
         working-directory: Assessments/Week6/student-management
       
+      - name: Install Day2-portfolio dependencies
+        run: npm ci
+        working-directory: Project2/Day2-portfolio
+      
+      - name: Build Day2-portfolio
+        run: npm run build -- --base-href="/AngularTraining/Project2/Day2-portfolio/"
+        working-directory: Project2/Day2-portfolio
+      
       - name: Create deployment directory
         run: |
           mkdir -p deploy
@@ -53,6 +61,8 @@ jobs:
           cp -r Project2/Game deploy/Project2/
           mkdir -p deploy/Assessments/Week6/student-management
           cp -r Assessments/Week6/student-management/dist/student-management/browser/* deploy/Assessments/Week6/student-management/
+          mkdir -p deploy/Project2/Day2-portfolio
+          cp -r Project2/Day2-portfolio/dist/portfolio/browser/* deploy/Project2/Day2-portfolio/
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
