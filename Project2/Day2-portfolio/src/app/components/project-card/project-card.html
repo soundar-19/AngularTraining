@@ -1,0 +1,32 @@
+<div class="project-card" [class.featured]="project.isFeatured" (click)="onCardClick()">
+  <div class="project-image" [style.background-color]="project.backgroundColor || 'rgb(167, 215, 240)'">
+    <img *ngIf="project.image" [src]="project.image" [alt]="project.title" class="project-img">
+    <div *ngIf="!project.image" class="project-placeholder">
+      <i class="pi pi-image" style="font-size: 3rem;"></i>
+    </div>
+  </div>
+  <div class="project-content">
+    <div class="project-header" *ngIf="project.badge">
+      <h3>{{ project.title }}</h3>
+      <span class="project-badge">{{ project.badge }}</span>
+    </div>
+    <h3 *ngIf="!project.badge">{{ project.title }}</h3>
+    <p>{{ project.description }}</p>
+    <div class="project-features" *ngIf="project.features">
+      <span class="feature" *ngFor="let feature of project.features">{{ feature }}</span>
+    </div>
+    <div class="tech-stack">
+      <span class="tech-tag" *ngFor="let tech of project.techStack">{{ tech }}</span>
+    </div>
+    <div class="project-links" *ngIf="project.liveDemo || project.github">
+      <a *ngIf="project.liveDemo" [href]="project.liveDemo" class="btn btn-primary">
+        <i class="pi pi-external-link"></i>
+        <span>Live Demo</span>
+      </a>
+      <a *ngIf="project.github" [href]="project.github" class="btn btn-outline">
+        <i class="pi pi-github"></i>
+        <span>View Code</span>
+      </a>
+    </div>
+  </div>
+</div>

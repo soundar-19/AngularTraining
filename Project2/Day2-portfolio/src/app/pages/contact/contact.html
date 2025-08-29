@@ -1,0 +1,110 @@
+<section class="contact-hero section">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-text">Available for Work</span>
+        <div class="pulse-dot"></div>
+      </div>
+      <h1 class="section-title">Let's Create Something Amazing Together</h1>
+      <p class="contact-subtitle">Ready to bring your ideas to life? Let's connect and discuss how we can collaborate on your next project.</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">Fast</span>
+          <span class="stat-label">Learner</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">Fresh</span>
+          <span class="stat-label">Perspective</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">Ready</span>
+          <span class="stat-label">To Contribute</span>
+        </div>
+      </div>
+    </div>
+    <div class="floating-elements">
+      <div class="float-element element-1"></div>
+      <div class="float-element element-2"></div>
+      <div class="float-element element-3"></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-content section">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="section-header">
+          <h2>Let's Connect</h2>
+          <div class="header-line"></div>
+        </div>
+        <p>I'm passionate about creating innovative solutions and building meaningful partnerships. Whether you have a project in mind or just want to chat about technology, I'd love to hear from you.</p>
+        
+        <div class="contact-methods">
+          <div class="contact-method">
+            <div class="method-icon">
+              <i class="pi pi-envelope"></i>
+            </div>
+            <div class="method-details">
+              <h3>Email</h3>
+              <a href="mailto:soundarrajacf@gmail.com">soundarrajacf@gmail.com</a>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="method-icon">
+              <i class="pi pi-phone"></i>
+            </div>
+            <div class="method-details">
+              <h3>Phone</h3>
+              <a href="tel:+917777777777">+91 7777777777</a>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="method-icon">
+              <i class="pi pi-linkedin"></i>
+            </div>
+            <div class="method-details">
+              <h3>LinkedIn</h3>
+              <a href="https://linkedin.com/in/soundarraja" target="_blank">linkedin.com/in/soundarraja</a>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="method-icon">
+              <i class="pi pi-github"></i>
+            </div>
+            <div class="method-details">
+              <h3>GitHub</h3>
+              <a href="https://github.com/soundar-19" target="_blank">github.com/soundar-19</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="quick-actions">
+        <div class="section-header">
+          <h2>Quick Actions</h2>
+          <div class="header-line"></div>
+        </div>
+        <div class="action-cards">
+          <app-action-card *ngFor="let action of quickActions" [action]="action"></app-action-card>
+        </div>
+        
+        <div class="availability-status">
+          <div class="status-content">
+            <div class="status-indicator"></div>
+            <div class="status-text">
+              <span class="status-title">Currently Available</span>
+              <span class="status-subtitle">Open to new opportunities</span>
+            </div>
+          </div>
+          <div class="status-time">Updated 2 hours ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

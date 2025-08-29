@@ -1,0 +1,64 @@
+<header class="header" [class.scrolled]="isScrolled">
+  <div class="container">
+    <nav class="nav">
+      <div class="logo">
+        <a routerLink="/" class="logo-link">
+          <span class="logo-text">SR</span>
+        </a>
+      </div>
+      
+      <div class="nav-links">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="pi pi-home"></i>
+          <span>Home</span>
+        </a>
+        <a routerLink="/about" routerLinkActive="active">
+          <i class="pi pi-user"></i>
+          <span>About</span>
+        </a>
+        <a routerLink="/project" routerLinkActive="active">
+          <i class="pi pi-briefcase"></i>
+          <span>Projects</span>
+        </a>
+        <a routerLink="/contact" routerLinkActive="active">
+          <i class="pi pi-envelope"></i>
+          <span>Contact</span>
+        </a>
+      </div>
+      
+      <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+        <i class="pi pi-bars" *ngIf="!isMenuOpen"></i>
+        <i class="pi pi-times" *ngIf="isMenuOpen"></i>
+      </button>
+    </nav>
+  </div>
+  
+  <!-- Mobile Sidebar -->
+  <div class="sidebar-overlay" [class.active]="isMenuOpen" (click)="closeMenu()"></div>
+  <div class="sidebar" [class.active]="isMenuOpen">
+    <div class="sidebar-header">
+      <span class="logo-text">SR</span>
+      <button class="close-btn" (click)="closeMenu()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+    <nav class="sidebar-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">
+        <i class="pi pi-home"></i>
+        <span>Home</span>
+      </a>
+      <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">
+        <i class="pi pi-user"></i>
+        <span>About</span>
+      </a>
+      <a routerLink="/project" routerLinkActive="active" (click)="closeMenu()">
+        <i class="pi pi-briefcase"></i>
+        <span>Projects</span>
+      </a>
+      <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">
+        <i class="pi pi-envelope"></i>
+        <span>Contact</span>
+      </a>
+    </nav>
+  </div>
+</header>

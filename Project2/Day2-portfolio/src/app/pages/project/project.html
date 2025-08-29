@@ -1,0 +1,52 @@
+<section class="portfolio-hero section">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-text">Portfolio Showcase</span>
+        <div class="pulse-dot"></div>
+      </div>
+      <h1 class="section-title">Building Digital Solutions</h1>
+      <p class="portfolio-subtitle">Explore my journey through code, creativity, and problem-solving. Each project represents a step forward in my development as a software engineer.</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">Learning</span>
+          <span class="stat-label">Every Day</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">Growing</span>
+          <span class="stat-label">Skills</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">Building</span>
+          <span class="stat-label">Future</span>
+        </div>
+      </div>
+    </div>
+    <div class="floating-elements">
+      <div class="float-element element-1"></div>
+      <div class="float-element element-2"></div>
+      <div class="float-element element-3"></div>
+    </div>
+  </div>
+</section>
+
+<section class="projects section">
+  <div class="container">
+    <div class="projects-grid">
+      <app-project-card *ngFor="let project of projects" [project]="project" (cardClick)="openProjectModal($event)"></app-project-card>
+    </div>
+  </div>
+</section>
+
+<section class="coding-stats section">
+  <div class="container">
+    <h2 class="section-title">Coding Journey</h2>
+    <div class="stats-grid">
+      <app-stat-card *ngFor="let stat of stats" [stat]="stat"></app-stat-card>
+    </div>
+  </div>
+</section>
+
+<app-project-modal></app-project-modal>
