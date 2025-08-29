@@ -47,7 +47,7 @@ graph TD
 
 <div align="center">
 
-### 📈 Assessment Breakdown (Total: 50 Marks)
+### 📈 Assessment Breakdown (Total: 100 Marks)
 
 </div>
 
@@ -294,11 +294,11 @@ xychart-beta
 
 | Metric | Score | Status |
 |--------|-------|--------|
-| **Performance** | 100/100 | ![Excellent](https://img.shields.io/badge/Excellent-95%25-success) |
+| **Performance** | 100/100 | ![Excellent](https://img.shields.io/badge/Excellent-100%25-success) |
 | **Accessibility** | 100/100 | ![Perfect](https://img.shields.io/badge/Perfect-100%25-brightgreen) |
-| **Best Practices** | 100/100 | ![Excellent](https://img.shields.io/badge/Excellent-98%25-success) |
-| **SEO** | 100/100 | ![Great](https://img.shields.io/badge/Great-92%25-green) |
-| **PWA Ready** | 100/100 | ![Good](https://img.shields.io/badge/Good-85%25-yellowgreen) |
+| **Best Practices** | 100/100 | ![Excellent](https://img.shields.io/badge/Excellent-100%25-success) |
+| **SEO** | 100/100 | ![Great](https://img.shields.io/badge/Excellent-100%25-success) |
+| **PWA Ready** | 100/100 | ![Good](https://img.shields.io/badge/Excellent-100%25-success) |
 
 ## 🎨 UI/UX Design Showcase
 
