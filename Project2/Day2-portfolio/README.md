@@ -12,12 +12,13 @@
 
 *A cutting-edge portfolio website built with Angular 20, featuring modern design principles, dark mode support, and stunning animations.*
 
-[🌐 Live Demo](https://soundar-19.github.io/AngularTraining/Project2/Day2-portfolio/index.html) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [🎨 Features](#features)
+ • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [🎨 Features](#features)
 
 </div>
 
 ---
-
+## Portfolio
+[🌐 Live Demo](https://soundar-19.github.io/AngularTraining/#/)
 ## 📊 Project Overview
 
 ```mermaid
