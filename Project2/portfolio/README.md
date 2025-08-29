@@ -11,7 +11,17 @@
 
 *A cutting-edge portfolio website built with Angular 20, featuring modern design principles, responsive design, and stunning animations.*
 
-[🌐 Live Demo](https://soundar-19.github.io/AngularTraining/#/) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [🎨 Features](#features)
+### 🌟 **[🚀 VIEW LIVE DEMO](https://soundar-19.github.io/AngularTraining/#/)** 🌟
+
+<div align="center">
+
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Portfolio-FF6B6B?style=for-the-badge&logo=vercel&logoColor=white&labelColor=000000)](https://soundar-19.github.io/AngularTraining/#/)
+[![GitHub Pages](https://img.shields.io/badge/Deployed_on-GitHub_Pages-181717?style=for-the-badge&logo=github&logoColor=white)](https://soundar-19.github.io/AngularTraining/#/)
+[![Status](https://img.shields.io/badge/Status-🟢_Live-success?style=for-the-badge)](https://soundar-19.github.io/AngularTraining/#/)
+
+**[📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [🎨 Features](#features)**
+
+</div>
 
 </div>
 
