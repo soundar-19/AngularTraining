@@ -53,6 +53,7 @@ jobs:
         run: |
           mkdir -p deploy
           cp index.html deploy/
+          cp 404.html deploy/
           cp .nojekyll deploy/
           cp -r Phase1 deploy/
           cp -r Phase2 deploy/
