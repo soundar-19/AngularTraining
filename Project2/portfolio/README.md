@@ -11,7 +11,7 @@
 
 *A cutting-edge portfolio website built with Angular 20, featuring modern design principles, responsive design, and stunning animations.*
 
-[🌐 Live Demo](https://your-portfolio-url.com) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [🎨 Features](#features)
+[🌐 Live Demo](https://soundar-19.github.io/AngularTraining/#/) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [🎨 Features](#features)
 
 </div>
 
