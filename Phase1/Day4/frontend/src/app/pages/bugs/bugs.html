@@ -1,0 +1,56 @@
+<div class="bugs-container">
+  <div class="bugs-header">
+    <h1>Bug Tracker</h1>
+    <button class="add-bug-btn" (click)="toggleAddForm()">Add New Bug</button>
+  </div>
+
+  <div class="add-bug-form" [hidden]="!showAddForm">
+    <div class="form-card">
+      <h3>Create New Bug</h3>
+      <div class="form-row">
+        <input type="text" #titleInput placeholder="Bug Title" class="form-input">
+      </div>
+      <div class="form-row">
+        <textarea #descInput placeholder="Description" class="form-textarea"></textarea>
+      </div>
+      <div class="form-row">
+        <select #priorityInput class="form-select">
+          <option value="">Select Priority</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancel" (click)="toggleAddForm()">Cancel</button>
+      </div>
+      <p class="form-message">{{message}}</p>
+    </div>
+  </div>
+
+  <div class="bug-stats">
+    <div class="stat-card">
+      <div class="stat-number">{{totalBugs}}</div>
+      <div class="stat-label">Total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{showingBugs}}</div>
+      <div class="stat-label">Showing</div>
+    </div>
+  </div>
+
+  <div class="bugs-list">
+    <app-bug-item 
+      *ngFor="let bug of bugs"
+      [id]="bug.id"
+      [title]="bug.title" 
+      description="{{bug.assignee ? 'Assigned to: ' + bug.assignee : 'Unassigned'}} | Project: {{bug.project}}" 
+      priority="Medium"
+      [status]="bug.status">
+    </app-bug-item>
+    
+    <div *ngIf="bugs.length === 0" class="no-bugs">
+      <p>No bugs found</p>
+    </div>
+  </div>
+</div>
