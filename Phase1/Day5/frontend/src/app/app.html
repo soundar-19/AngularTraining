@@ -1,0 +1,29 @@
+<header class="main-header">
+    <div class="header-content">
+        <div class="brand">
+            <h1 class="page-title">{{title()}}</h1>
+        </div>
+        <nav class="main-nav">
+            @if (!authService.isAuthenticated()) {
+                <a routerLink="/login" routerLinkActive="active" class="nav-link login-btn">
+                    Login
+                </a>
+            } @else {
+                <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+                    Dashboard
+                </a>
+                <a routerLink="/bugs" routerLinkActive="active" class="nav-link">
+                    Bugs
+                </a>
+                <button (click)="logout()" class="nav-link logout-btn">
+                    Logout
+                </button>
+            }
+        </nav>
+    </div>
+</header>
+<main class="main-content">
+    <router-outlet></router-outlet>
+</main>
+
+
