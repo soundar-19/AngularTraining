@@ -1,0 +1,56 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Welcome, {{username}}!</h1>
+        <p>Bug tracking overview</p>
+    </div>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">{{ totalBugs }}</div>
+            <div class="stat-label">Total Bugs</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-number">{{ openBugs }}</div>
+            <div class="stat-label">Open</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-number">{{ closedBugs }}</div>
+            <div class="stat-label">Closed</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-number">{{ highPriorityBugs }}</div>
+            <div class="stat-label">High Priority</div>
+        </div>
+    </div>
+    
+    <div class="content-grid">
+        <div class="activity-card">
+            <h3>Recent Activity</h3>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <span class="activity-text">Bug #1 reported</span>
+                    <span class="activity-time">2h ago</span>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-text">Bug #3 closed</span>
+                    <span class="activity-time">1d ago</span>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-text">Bug #2 updated</span>
+                    <span class="activity-time">3d ago</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions-card">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="action-btn" routerLink="/bugs">View All Bugs</button>
+                <button class="action-btn" routerLink="/bugs">Report Bug</button>
+            </div>
+        </div>
+    </div>
+</div>
