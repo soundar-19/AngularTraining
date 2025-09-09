@@ -1,0 +1,172 @@
+<div class="bugs-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1 class="page-title">🐛 Bug Tracker</h1>
+      <div class="stats-summary">
+        <span class="stat-item">{{stats.total}} Total</span>
+        <span class="stat-item open" (click)="quickStatFilter('OPEN')">{{stats.open}} Open</span>
+        <span class="stat-item progress" (click)="quickStatFilter('IN_PROGRESS')">{{stats.inProgress}} In Progress</span>
+        <span class="stat-item closed" (click)="quickStatFilter('CLOSED')">{{stats.closed}} Closed</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <p-button label="New Bug" icon="pi pi-plus" (onClick)="toggleAddForm()" 
+                styleClass="p-button-primary new-bug-btn"></p-button>
+    </div>
+  </div>
+
+  <!-- Control Panel -->
+  <div class="control-panel">
+    <!-- Search Section -->
+    <div class="search-section">
+      <div class="search-wrapper">
+        <i class="pi pi-search search-icon"></i>
+        <input type="text" [(ngModel)]="searchText" (input)="onSearchChange()" 
+               placeholder="Search bugs..." class="search-input" pInputText>
+      </div>
+    </div>
+
+    <!-- Filter & Sort Section -->
+    <div class="filter-sort-section">
+      <div class="filters">
+        <p-select [(ngModel)]="filterStatus" [options]="statusOptions" optionLabel="label" optionValue="value" 
+                  placeholder="All Status" (onChange)="applyFilters()" 
+                  styleClass="filter-select"></p-select>
+        
+        <p-select [(ngModel)]="filterPriority" [options]="priorityOptions" optionLabel="label" optionValue="value" 
+                  placeholder="All Priority" (onChange)="applyFilters()" 
+                  styleClass="filter-select"></p-select>
+      </div>
+      
+      <div class="sort-section">
+        <p-select [(ngModel)]="sortField" [options]="sortOptions" optionLabel="label" optionValue="value" 
+                  (onChange)="onSortChange()" styleClass="sort-select"></p-select>
+        
+        <p-button [icon]="sortDirection === 'asc' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'" 
+                  (onClick)="toggleSortDirection()" styleClass="p-button-outlined sort-direction-btn" 
+                  pTooltip="Toggle sort direction" tooltipPosition="top"></p-button>
+      </div>
+      
+      <p-button icon="pi pi-refresh" (onClick)="clearFilters()" 
+                styleClass="p-button-outlined refresh-btn" 
+                pTooltip="Clear filters" tooltipPosition="top"></p-button>
+    </div>
+
+    <!-- View & Pagination Controls -->
+    <div class="view-controls">
+      <div class="results-info">
+        <span *ngIf="!loading">{{getResultsText()}}</span>
+      </div>
+      
+      <div class="pagination-controls">
+        <p-select [(ngModel)]="rows" [options]="pageSizeOptions" optionLabel="label" optionValue="value" 
+                  (onChange)="onPageSizeChange()" styleClass="page-size-select"></p-select>
+        
+        <div class="page-navigation">
+          <p-button icon="pi pi-angle-left" (onClick)="previousPage()" 
+                    [disabled]="first === 0" styleClass="p-button-outlined page-btn"></p-button>
+          
+          <span class="page-info">{{getCurrentPageInfo()}}</span>
+          
+          <p-button icon="pi pi-angle-right" (onClick)="nextPage()" 
+                    [disabled]="isLastPage()" styleClass="p-button-outlined page-btn"></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Bug Form Modal -->
+  <div class="add-bug-modal" [class.show]="showAddForm" (click)="closeModalOnBackdrop($event)">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{editingBug ? 'Edit Bug Report' : 'Create New Bug Report'}}</h3>
+        <button class="close-btn" (click)="toggleAddForm()">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="bugTitle">Bug Title *</label>
+          <input id="bugTitle" type="text" [(ngModel)]="newBugTitle" placeholder="Enter bug title" 
+                 class="form-input" pInputText>
+        </div>
+        <div class="form-group">
+          <label for="bugDescription">Description *</label>
+          <textarea id="bugDescription" [(ngModel)]="newBugDescription" placeholder="Describe the bug in detail" 
+                    class="form-textarea" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="bugProject">Project *</label>
+          <input id="bugProject" type="text" [(ngModel)]="newBugProject" placeholder="Enter project name" 
+                 class="form-input" pInputText>
+        </div>
+        <div class="form-group">
+          <label for="bugAssignee">Assigned To *</label>
+          <input id="bugAssignee" type="text" [(ngModel)]="newBugAssignee" placeholder="Enter assignee name" 
+                 class="form-input" pInputText>
+        </div>
+        <div class="form-group">
+          <label>Priority *</label>
+          <p-select [(ngModel)]="newBugPriority" [options]="priorityOptions.slice(1)" 
+                    optionLabel="label" optionValue="value" placeholder="Select Priority" 
+                    styleClass="w-full" appendTo="body" [showClear]="false"></p-select>
+        </div>
+        <div class="form-message" *ngIf="message">
+          <i class="pi pi-info-circle"></i>
+          {{message}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p-button label="Cancel" icon="pi pi-times" (onClick)="toggleAddForm()" 
+                  styleClass="p-button-outlined"></p-button>
+        <p-button [label]="editingBug ? 'Update Bug' : 'Create Bug'" 
+                  [icon]="editingBug ? 'pi pi-check' : 'pi pi-plus'" (onClick)="createBug()" 
+                  [loading]="loading" styleClass="p-button-primary"></p-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-section" *ngIf="loading">
+    <div class="loading-content">
+      <p-progressSpinner styleClass="loading-spinner"></p-progressSpinner>
+      <p>Loading bugs...</p>
+    </div>
+  </div>
+
+  <!-- Bug Cards Grid -->
+  <div class="bugs-grid" *ngIf="!loading">
+    <app-bug-item *ngFor="let bug of bugs; trackBy: trackByBugId" 
+                  [id]="bug.id"
+                  [title]="bug.title"
+                  [description]="bug.description || ''"
+                  [priority]="bug.priority"
+                  [status]="bug.status"
+                  [assignee]="bug.assignee || ''"
+                  [project]="bug.project || ''"
+                  (statusChange)="onBugStatusToggle($event)"
+                  (editBugEvent)="editBug($event)"
+                  (deleteBug)="deleteBug($event)">
+    </app-bug-item>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!loading && bugs.length === 0">
+    <div class="empty-content">
+      <i class="pi pi-search empty-icon"></i>
+      <h3>No bugs found</h3>
+      <p>No bugs match your current search criteria</p>
+      <p-button label="Clear Filters" icon="pi pi-filter-slash" (onClick)="clearFilters()" 
+                styleClass="p-button-outlined"></p-button>
+    </div>
+  </div>
+
+  <!-- Bottom Pagination (if needed for large datasets) -->
+  <div class="bottom-pagination" *ngIf="totalRecords > 50 && !loading">
+    <p-paginator [first]="first" [rows]="rows" [totalRecords]="totalRecords"
+                 [showPageLinks]="true" [pageLinkSize]="5"
+                 (onPageChange)="onPageChange($event)">
+    </p-paginator>
+  </div>
+</div>

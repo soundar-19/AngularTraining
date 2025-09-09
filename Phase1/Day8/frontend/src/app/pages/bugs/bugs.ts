@@ -11,11 +11,12 @@ import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TooltipModule } from 'primeng/tooltip';
 import { debounceTime, distinctUntilChanged, Observable, Subject } from 'rxjs';
+import { BugItemComponent } from './bug-item/bug-item';
 
 @Component({
   selector: 'app-bugs',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, SelectModule, PaginatorModule, ButtonModule, CardModule, ProgressSpinnerModule, TooltipModule],
+  imports: [CommonModule, FormsModule, InputTextModule, SelectModule, PaginatorModule, ButtonModule, CardModule, ProgressSpinnerModule, TooltipModule, BugItemComponent],
   templateUrl: './bugs.html',
   styleUrl: './bugs.css'
 })
@@ -339,20 +340,19 @@ export class BugComponent implements OnInit {
     return `Showing ${start}-${end} of ${this.totalRecords} bugs`;
   }
   
-  onBugStatusToggle(bugId: number) {
-    const bug = this.bugs.find(b => b.id === bugId);
+  onBugStatusToggle(event: {id: number, status: string}) {
+    const bug = this.bugs.find(b => b.id === event.id);
     if (!bug) return;
     
-    const newStatus = bug.status === 'OPEN' ? 'CLOSED' : 'OPEN';
     const oldStatus = bug.status;
     
     // Update UI immediately (optimistic update)
-    bug.status = newStatus as any;
+    bug.status = event.status as any;
     
     this.loading = true;
-    this.bugService.updateBugStatus(bugId, newStatus).subscribe({
+    this.bugService.updateBugStatus(event.id, event.status).subscribe({
       next: () => {
-        this.message = `Bug ${newStatus === 'CLOSED' ? 'closed' : 'reopened'} successfully!`;
+        this.message = `Bug status updated to ${event.status.toLowerCase().replace('_', ' ')} successfully!`;
         this.loadStats();
         this.loading = false;
         setTimeout(() => this.message = '', 3000);

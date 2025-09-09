@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-bug-item',
@@ -8,7 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './bug-item.html',
   styleUrl: './bug-item.css'
 })
-export class BugItemComponent {
+export class BugItemComponent implements OnInit {
   @Input() title: string = '';
   @Input() description: string = '';
   @Input() priority: string = '';
@@ -17,6 +18,14 @@ export class BugItemComponent {
   @Output() toggleStatus = new EventEmitter<number>();
   @Output() deleteBug = new EventEmitter<number>();
   
+  role: string | null = null;
+  
+  constructor(private auth: AuthService) { }
+  
+  ngOnInit() {
+    this.role = this.auth.getUserRole();
+    console.log('Bug item role:', this.role); // Debug log
+  }
   onToggleStatus() {
     this.toggleStatus.emit(this.id);
   }

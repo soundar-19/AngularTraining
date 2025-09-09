@@ -136,4 +136,12 @@ export class BugService {
       })
     );
   }
+  getBugById(id: number): Observable<Bug>{
+    return this.http.get<Bug>(`${this.apiUrl}/${id}`).pipe(
+      catchError((err) => {
+        console.error('Error fetching bug:', err);
+        throw err;
+      })
+    );
+  }
 }

@@ -1,4 +1,4 @@
-<div class="bug-card">
+<div class="bug-card" (click)="onSelectBug()">
   <div class="bug-header">
     <div class="bug-id-section">
       <span class="bug-id">#{{id}}</span>
@@ -21,6 +21,8 @@
   <div class="bug-content">
     <h3 class="bug-title">{{title}}</h3>
     <p class="bug-description">{{description}}</p>
+    <div style="background: blue; color: white; padding: 5px;">TEST COMPONENT AREA</div>
+    <app-bug-detail [bugId]="id" [title]="title" [description]="description"></app-bug-detail>
   </div>
   
   <div class="bug-footer">
@@ -31,4 +33,5 @@
       </span>
     </div>
   </div>
+  
 </div>
