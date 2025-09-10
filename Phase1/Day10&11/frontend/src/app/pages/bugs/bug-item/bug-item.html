@@ -1,0 +1,37 @@
+<div class="bug-card" (click)="onSelectBug()">
+  <div class="bug-header">
+    <div class="bug-id-section">
+      <span class="bug-id">#{{id}}</span>
+      <span class="status-badge" [ngClass]="'status-' + status.toLowerCase().replace('_', '-')">{{getStatusLabel()}}</span>
+    </div>
+    <div class="bug-actions">
+      <span class="priority-badge" [ngClass]="'priority-' + priority.toLowerCase()">{{getPriorityLabel()}}</span>
+      <button class="action-btn" (click)="onToggleStatus()" [title]="getActionTitle()">
+        <i class="pi" [ngClass]="getActionIcon()"></i>
+      </button>
+      <!-- Debug: Role is {{role}} -->
+      @if (role === 'ADMIN') {
+      <button class="action-btn delete-btn" (click)="onDeleteBug()" title="Delete bug">
+        <i class="pi pi-trash"></i>
+      </button>
+      }
+    </div>
+  </div>
+  
+  <div class="bug-content">
+    <h3 class="bug-title">{{title}}</h3>
+    <p class="bug-description">{{description}}</p>
+    <div style="background: blue; color: white; padding: 5px;">TEST COMPONENT AREA</div>
+    <app-bug-detail [bugId]="id" [title]="title" [description]="description"></app-bug-detail>
+  </div>
+  
+  <div class="bug-footer">
+    <div class="bug-meta">
+      <span class="meta-item">
+        <i class="pi pi-clock"></i>
+        Updated recently
+      </span>
+    </div>
+  </div>
+  
+</div>
