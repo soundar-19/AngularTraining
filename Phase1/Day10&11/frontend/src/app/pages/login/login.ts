@@ -32,7 +32,11 @@ export class LoginComponent {
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
-          this.message = 'Login failed. Please check your credentials.';
+          if (error.status === 0 || !error.status) {
+            this.message = 'Server is not available. Please try again later.';
+          } else {
+            this.message = 'Login failed. Please check your credentials.';
+          }
           this.isLoading = false;
           console.error('Login error:', error);
         }

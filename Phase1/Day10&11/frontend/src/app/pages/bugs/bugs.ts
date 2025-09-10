@@ -22,7 +22,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   imports: [CommonModule, FormsModule, InputTextModule, SelectModule, PaginatorModule, ButtonModule, CardModule, ProgressSpinnerModule, TooltipModule, ToastModule, ConfirmDialogModule, BugItemComponent],
   templateUrl: './bugs.html',
   styleUrl: './bugs.css',
-  providers: [MessageService, ConfirmationService]
+  providers: [ConfirmationService]
 })
 export class BugComponent implements OnInit {
 
@@ -117,8 +117,7 @@ export class BugComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading bugs:', error);
-        this.messageService.add({severity:'error', summary:'Error', detail:'Error loading bugs'});
+        console.log('Handled by global error interceptor handler');
         this.loading = false;
       }
     });
@@ -130,8 +129,7 @@ export class BugComponent implements OnInit {
         this.stats = stats;
       },
       error: (error) => {
-        console.error('Error loading stats:', error);
-        this.messageService.add({severity:'error', summary:'Error', detail:'Error loading statistics'});
+        console.log('Handled by global error interceptor handler');
       }
     });
   }
@@ -255,8 +253,7 @@ export class BugComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error saving bug:', error);
-        this.messageService.add({severity:'error', summary:'Error', detail:'Error saving bug. Please try again.'});
+        console.log('Handled by global error interceptor handler');
         this.loading = false;
       }
     });
@@ -361,10 +358,9 @@ export class BugComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error updating bug status:', error);
+        console.log('Handled by global error interceptor handler');
         // Revert status on error
         bug.status = oldStatus;
-        this.messageService.add({severity:'error', summary:'Error', detail:'Error updating bug status'});
         this.loading = false;
       }
     });
@@ -399,8 +395,7 @@ export class BugComponent implements OnInit {
             this.loading = false;
           },
           error: (error) => {
-            console.error('Error deleting bug:', error);
-            this.messageService.add({severity:'error', summary:'Error', detail:'Error deleting bug'});
+            console.log('Handled by global error interceptor handler');
             // Reload bugs on error to restore the item
             this.loadBugs();
             this.loading = false;

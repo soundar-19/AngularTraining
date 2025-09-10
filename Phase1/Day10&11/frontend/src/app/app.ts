@@ -2,11 +2,12 @@ import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,CommonModule,RouterLink,RouterLinkActive],
+  imports: [RouterOutlet,CommonModule,RouterLink,RouterLinkActive,ToastModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
